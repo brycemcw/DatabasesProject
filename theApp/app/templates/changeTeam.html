@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<center>
+    {% if title == 'change team' %}
+    <h1> Update Favorites </h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.favoriteTeam.label }}<br>
+            {{ form.favoriteTeam(size=32) }}<br>
+            {% for error in form.favoriteTeam.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.favoriteYear.label }}<br>
+            {{ form.favoriteYear(size=32) }}
+
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</center>
+
+{% else %}
+{% if test %}
+<h1>Hi {{ user.username }} </h1>
+<h2>Updated Favorite Team & Year</h2>
+<h2>{{ user.favoriteTeam }} {{ user.favoriteYear }}</h2>
+{% else %}
+<h2>Unable to change team</h2>
+<h3>Date or Name is innacurate</h3>
+
+{%endif%}
+{%endif%}
+
+{% endblock %}

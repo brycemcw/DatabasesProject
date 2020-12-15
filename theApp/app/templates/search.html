@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+
+    {% if title == 'Search' %}
+    <h1>Team {{ title }} </h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.team.label }}<br>
+            {{ form.team(size=32) }}
+            {% for error in form.team.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.yearID.label }}<br>
+            {{ form.yearID(size=32) }}
+            {% for error in form.yearID.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    {% else %}
+    {% if stats %}
+    <center>
+        <h1>{{ form.team.data }} {{ form.yearID.data }}</h1>
+    </center>
+
+    <center>
+        {% for line in teamStats %}
+        <h2>Finished {{line.teamRank}}/5 in {{line.lgID}}</h2>
+        {% if line.DivWin == 'Y' %}
+        <h2>Winner of Division</h2>
+        {% endif %}
+        {% if line.WCWin == 'Y' %}
+        <h2>Won WildCard Game</h2>
+        {% endif %}
+        {% if line.LgWin == 'Y' %}
+        <h2>Winner of League</h2>
+        {% endif %}
+        {% if line.WSWin == 'Y' %}
+        <h2>Winner of World Series</h2>
+        {% endif %}
+        {% endfor %}
+    </center>
+
+    <div>
+        <table border="1">
+            <caption>People</caption>
+            <tr>
+                <th>Name</th>
+                <th>Player ID</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>Batting</th>
+                <th>Throwing Hand</th>
+            </tr>
+            {% for line in players %}
+            <tr>
+                <td>{{line.nameFirst}} {{line.nameLast}}</td>
+                <td>{{line.playerID}}</td>
+                <td>{{line.birth_date}}</td>
+                <td>{{line.birthCity}}, {{line.birthState}} {{line.birthCountry}}</td>
+                <td>{{line.bats}}</td>
+                <td>{{line.throws}}</td>
+            </tr>
+            {% endfor%}
+
+
+        </table>
+    </div>
+
+    <div>
+        <table border="1">
+            <caption>Batting</caption>
+            <tr>
+                <th>Batters</th>
+                <th>Plate Appearances</th>
+                <th>Batting Average</th>
+                <th>Onbase %</th>
+                <th>Slugging %</th>
+                <!-- <th>Positions</th> -->
+            </tr>
+
+            {% for line in batStats %}
+            <tr>
+                <td>{{ line.playerID }} </td>
+                <td>{{ line.pa }}</td>
+                <td>{{ "%.2f" | format(line.ba * 100) }} %</td>
+                <td>{{ "%.2f" | format(line.obPercent * 100) }} %</td>
+                <td>{{ "%.2f" | format(line.slugPercent * 100 )}} %</td>
+                <!-- <td>Positions</td> -->
+            </tr>
+            {% endfor %}
+        </table>
+
+
+        <table border="1">
+            <caption>Pitching</caption>
+            <tr>
+                <th>Pitchers</th>
+                <th>IP</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Saves</th>
+                <th>Era</th>
+            </tr>
+
+
+            {% for line in pitchStats %}
+            <tr>
+                <td>{{ line.playerID }}</td>
+                <td>{{ "%.2f" | format(line.ip) }}</td>
+                <td>{{ line.W }}</td>
+                <td>{{ line.L }}</td>
+                <td>{{ line.sv }}</td>
+                <td>{{ line.era }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+        <table border="1">
+            <caption>Managers</caption>
+
+            {% for line in teamManagers %}
+            <tr>
+                <td>{{ line.playerID }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+
+    {% else %}
+    <h3>No results found</h3>
+    {% endif %}
+    {% endif %}
+
+</center>
+{% endblock %}

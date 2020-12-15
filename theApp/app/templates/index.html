@@ -1,0 +1,30 @@
+{% block content %}
+
+<a href="{{ url_for('index') }}">Home</a>
+<a href="{{ url_for('search') }}">Search</a>
+
+{% if title == 'Home'%}
+
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('register') }}">Sign Up</a>
+
+<center>
+    <h1>Baseball Team Database</h1>
+    <h2>Search for a team by clicking on search</h2>
+    <h2>Create an Account to see your favorite
+        team
+    </h2>
+</center>
+
+{% else %}
+<a href="{{ url_for('logout') }}">Logout</a>
+<a href="{{ url_for('changeTeam') }}">Change Favorite Team</a>
+
+<center>
+    <h1>Hi {{ user.username }}</h1>
+    <h2>Favorite Team: {{ user.favoriteTeam }} {{ user.favoriteYear }}</h2>
+</center>
+
+
+{% endif %}
+{% endblock %}
